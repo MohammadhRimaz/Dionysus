@@ -70,7 +70,9 @@ const CreatePage = () => {
               placeholder="GitHub Token (Optional)"
             />
             <div className="h-4"></div>
-            <Button type="submit">Create Project</Button>
+            <Button type="submit" disabled={createProject.isPending}>
+              Create Project
+            </Button>
           </form>
         </div>
       </div>
