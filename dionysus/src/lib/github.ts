@@ -21,9 +21,13 @@ type Response = {
 export const getCommitHashes = async (
   githubUrl: string,
 ): Promise<Response[]> => {
+  const [owner, repo] = githubUrl.split("/").slice(-2);
+  if (!owner || !repo) {
+    throw new Error("Invalid GitHub URL");
+  }
   const { data } = await octokit.rest.repos.listCommits({
-    owner: "docker",
-    repo: "genai-stack",
+    owner,
+    repo,
   });
 
   const sortedCommits = data.sort(
@@ -49,6 +53,8 @@ export const pollCommits = async (projectId: string) => {
   );
   return unprocessedCommits;
 };
+
+async function summariseCommit(githubUrl: string, commitHash: string) {}
 
 async function fetchProjectGithubUrl(projectId: string) {
   const project = await db.project.findUnique({
@@ -77,4 +83,4 @@ async function filterUnprocessedCommits(
   return unprocessedCommits;
 }
 
-await pollCommits("cm85muvtx0000kvx0d76tsm9n").then(console.log);
+await pollCommits("cm85o7z6r0000kvjwoh74g2vw").then(console.log);
