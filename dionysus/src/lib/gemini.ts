@@ -2,6 +2,7 @@
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import "dotenv/config";
+import { Document } from "@langchain/core/documents";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const model = genAI.getGenerativeModel({
@@ -44,98 +45,31 @@ export const aiSummariseCommit = async (diff: string) => {
   return response.response.text();
 };
 
-// console.log(
-//   await aiSummariseCommit(`
-//   diff --git a/dionysus/prisma/schema.prisma b/dionysus/prisma/schema.prisma
-// index 003ffbd..01c0c32 100644
-// --- a/dionysus/prisma/schema.prisma
-// +++ b/dionysus/prisma/schema.prisma
-// @@ -1,6 +1,5 @@
-//  // This is your Prisma schema file,
-//  // learn more about it in the docs: https://pris.ly/d/prisma-schema
-// -
-//  generator client {
-//      provider = "prisma-client-js"
-//  }
-// @@ -22,6 +21,8 @@ model User {
-//      emailAddress String @unique
+export async function summariseCode(doc: Document) {
+  console.log("getting summary for ", doc.metadata.source);
+  try {
+    const code = doc.pageContent.slice(0, 10000); // Limit t 10000 characters
+    const response = await model.generateContent([
+      `You are an intelligent senior software engineer who specialises in onboarding junior software engineers onto projects`,
+      `You are onboarding a junior software engineer and explaining to them the purpose of the ${doc.metadata.source} file
+      Here is the code:
+      ---
+      ${code}
+      ---
+      Give a summary no more than 100 words of the code aboce`,
+    ]);
 
-//      credits Int @default(150)
-// +
-// +    userToProjects UserToProject[]
-//  }
+    return response.response.text();
+  } catch (error) {
+    return "";
+  }
+}
 
-//  model Project {
-// @@ -33,4 +34,20 @@ model Project {
-//      githubUrl String
-
-//      deletedAt DateTime?
-// +
-// +    userToProjects UserToProject[]
-// +}
-// +
-// +model UserToProject {
-// +    id        String   @id @default(cuid())
-// +    createdAt DateTime @default(now())
-// +    updatedAt DateTime @updatedAt
-// +
-// +    userId String
-// +    projectId String
-// +
-// +    user User @relation(fields: [userId], references: [id])
-// +    project Project @relation(fields: [projectId], references: [id])
-// +
-// +    @@unique([userId, projectId])
-//  }
-// \ No newline at end of file
-// diff --git a/dionysus/src/app/(protected)/create/page.tsx b/dionysus/src/app/(protected)/create/page.tsx
-// index 269c2c4..cd64645 100644
-// --- a/dionysus/src/app/(protected)/create/page.tsx
-// +++ b/dionysus/src/app/(protected)/create/page.tsx
-// @@ -1,8 +1,10 @@
-//  "use client";
-//  import { Button } from "@/components/ui/button";
-//  import { Input } from "@/components/ui/input";
-// +import { api } from "@/trpc/react";
-//  import React from "react";
-//  import { useForm } from "react-hook-form";
-// +import { toast } from "sonner";
-
-//  type FormInput = {
-//    repoUrl: string;
-// @@ -12,9 +14,26 @@ type FormInput = {
-
-//  const CreatePage = () => {
-//    const { register, handleSubmit, reset } = useForm<FormInput>();
-// +  const createProject = api.project.createProject.useMutation();
-
-//    function onSubmit(data: FormInput) {
-//      window.alert(JSON.stringify(data, null, 2));
-// +    createProject.mutate(
-// +      {
-// +        githubUrl: data.repoUrl,
-// +        name: data.projectName,
-// +        githubToken: data.githubToken,
-// +      },
-// +      {
-// +        onSuccess: () => {
-// +          toast.success("Project created successfully");
-// +          reset();
-// +        },
-// +        onError: (error) => {
-// +          toast.error("Failed to create project");
-// +        },
-// +      },
-// +    );
-//      return true;
-//    }
-
-// diff --git a/dionysus/src/app/layout.tsx b/dionysus/src/app/layout.tsx
-// index 78e2904..9a6c133 100644
-// --- a/dionysus/src/app/layout.tsx
-// +++ b/dionysus/src/app/layout.tsx
-// @@ -11,6 +11,7 @@ import { GeistSans } from "geist/font/sans";
-//  import { type Metadata } from "next";
-
-//  `),
-// );
+export async function generateEmbedding(summary: string) {
+  const model = genAI.getGenerativeModel({
+    model: "text-embedding-004",
+  });
+  const result = await model.embedContent(summary);
+  const embedding = result.embedding;
+  return embedding.values;
+}
