@@ -10,8 +10,6 @@ export const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
 });
 
-const githubUrl = "https://github.com/docker/genai-stack";
-
 type Response = {
   commitHash: string;
   commitMessage: string;
