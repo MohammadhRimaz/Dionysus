@@ -46,7 +46,11 @@ const QAPage = () => {
                         {question.question}
                       </p>
                       <span className="whitespace-nowrap text-xs text-gray-400">
-                        {question.createdAt.toLocaleDateString()}
+                        {question.createdAt.toLocaleDateString(undefined, {
+                          year: "numeric",
+                          month: "short",
+                          day: "2-digit",
+                        })}
                       </span>
                     </div>
                     <p className="line-clamp-1 text-sm text-gray-500">
