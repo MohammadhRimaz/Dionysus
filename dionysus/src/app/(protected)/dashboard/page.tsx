@@ -6,6 +6,7 @@ import React from "react";
 import CommitLog from "./commit-log";
 import AskQuestionCard from "./ask-question-card";
 import ArchiveButton from "./archive-button";
+import InviteButton from "./invite-button";
 
 const Dashboardpage = () => {
   const { project } = useProject();
@@ -34,6 +35,7 @@ const Dashboardpage = () => {
         <div className="h-4"></div>
 
         <div className="flex items-center gap-4">
+          <InviteButton />
           <ArchiveButton />
         </div>
       </div>
@@ -44,7 +46,6 @@ const Dashboardpage = () => {
         </div>
       </div>
 
-      {/* Commit Log */}
       <div className="mt-8"></div>
       <CommitLog />
     </div>
