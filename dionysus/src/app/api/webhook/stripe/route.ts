@@ -53,3 +53,7 @@ export async function POST(request: NextRequest) {
   }
   return NextResponse.json({ message: "Hello from Stripe Webhook" });
 }
+
+// For Development: In console
+// stripe login
+// stripe listen --forward-to localhost:3000/api/webhook/stripe
