@@ -16,15 +16,15 @@ Built with Next.js 15, Google Gemini AI, Stripe, and TypeScript.
 
 - **💳 Credit System**:
 
-Each file = 1 Dionysus Credit.
+  -- Each file = 1 Dionysus Credit.
 
-Users can purchase additional credits through Stripe if they run out in the billing page.
+  -- Users can purchase additional credits through Stripe if they run out in the billing page.
 
 - **📦 Project Management**:
 
-Each uploaded repository is treated as a "Project."
+  -- Each uploaded repository is treated as a "Project."
 
-Archive projects to keep your workspace clean.
+  -- Archive projects to keep your workspace clean.
 
 - **🖥️ Modern UI/UX**: A sleek, intuitive design for easy navigation and interaction.
 
@@ -103,15 +103,15 @@ Open http://localhost:3000 to see the app.
 
 ## 💳 Credit System
 
-1 Repository File = 1 Credit
+**1 Repository File = 1 Credit**
 
 When adding a repository:
 
-Dionysus checks if you have enough credits.
+- Dionysus checks if you have enough credits.
 
-Credits deducted based on file count.
+- Credits deducted based on file count.
 
-Purchase More: Visit the Billing page to buy additional credits via Stripe.
+- Purchase More: Visit the Billing page to buy additional credits via Stripe.
 
 ## 🔗 Connect
 
