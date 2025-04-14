@@ -87,8 +87,9 @@ DATABASE_URL=your_database_url
 npm run dev
 # or
 yarn dev
-Open http://localhost:3000 to see the app.
 ```
+
+Open http://localhost:3000 to see the app.
 
 ## 🧩 How It Works
 
