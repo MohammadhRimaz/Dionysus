@@ -78,7 +78,7 @@ const QAPage = () => {
                 code: ({ children }) => (
                   <code
                     style={{
-                      backgroundColor: "#015482", // grayish black
+                      backgroundColor: "#015482", // Sea Blue
                       color: "white",
                       padding: "4px 6px",
                       borderRadius: "4px",
