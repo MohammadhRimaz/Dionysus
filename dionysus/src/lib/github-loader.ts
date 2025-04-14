@@ -6,6 +6,19 @@ import { generateEmbedding, summariseCode } from "./gemini";
 import { db } from "@/server/db";
 import { Octokit } from "octokit";
 
+const getDefaultBranch = async (
+  githubOwner: string,
+  githubRepo: string,
+  githubToken?: string,
+) => {
+  const octokit = new Octokit({ auth: githubToken });
+  const { data } = await octokit.rest.repos.get({
+    owner: githubOwner,
+    repo: githubRepo,
+  });
+  return data.default_branch;
+};
+
 const getFileCount = async (
   path: string,
   octokit: Octokit,
@@ -63,9 +76,18 @@ export const loadGithubRepo = async (
   githubUrl: string,
   githubToken?: string,
 ) => {
+  const githubOwner = githubUrl.split("/")[3];
+  const githubRepo = githubUrl.split("/")[4];
+
+  if (!githubOwner || !githubRepo) {
+    throw new Error("Invalid github url");
+  }
+
+  const branch = await getDefaultBranch(githubOwner, githubRepo, githubToken);
+
   const loader = new GithubRepoLoader(githubUrl, {
     accessToken: githubToken || "",
-    branch: "main",
+    branch: branch,
     ignoreFiles: [
       "package-lock.json",
       "yarn.lock",

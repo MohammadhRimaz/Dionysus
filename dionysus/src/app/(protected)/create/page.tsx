@@ -95,8 +95,10 @@ const CreatePage = () => {
                     <Info className="size-4" />
                     <p className="text-sm">
                       You will be charged{" "}
-                      <strong>{checkCredits.data?.fileCount}</strong>credits for
-                      this repository.{" "}
+                      <strong>{checkCredits.data?.fileCount}</strong> credits
+                      for this repository. <br />
+                      If you don't have a GitHub token, creating project <br />
+                      may restricted to <strong>60</strong> credits per hour.
                     </p>
                   </div>
                   <p className="ml-6 text-sm text-blue-600">
