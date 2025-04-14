@@ -5,7 +5,6 @@ import { Document } from "@langchain/core/documents";
 import { generateEmbedding, summariseCode } from "./gemini";
 import { db } from "@/server/db";
 import { Octokit } from "octokit";
-import { count } from "console";
 
 const getFileCount = async (
   path: string,

@@ -69,8 +69,26 @@ const QAPage = () => {
             <SheetTitle>{question.question}</SheetTitle>
             <MDEditor.Markdown
               source={question.answer}
-              className="!h-full max-h-[40vh] max-w-[90vw] overflow-scroll p-2"
-              style={{ backgroundColor: "white", color: "black" }}
+              className="!h-full max-h-[40vh] max-w-[90vw] overflow-scroll rounded-md bg-white p-2 text-black"
+              style={{
+                backgroundColor: "white",
+                color: "black",
+              }}
+              components={{
+                code: ({ children }) => (
+                  <code
+                    style={{
+                      backgroundColor: "#015482", // grayish black
+                      color: "white",
+                      padding: "4px 6px",
+                      borderRadius: "4px",
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
+                    {children}
+                  </code>
+                ),
+              }}
             />
             <CodeReferences
               filesReferences={(question.filesReferences ?? []) as any}
