@@ -14,13 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 import useProject from "@/hooks/use-project";
 import { cn } from "@/lib/utils";
-import {
-  Bot,
-  CreditCard,
-  LayoutDashboardIcon,
-  Plus,
-  Presentation,
-} from "lucide-react";
+import { Bot, CreditCard, LayoutDashboardIcon, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
