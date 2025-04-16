@@ -13,9 +13,9 @@ const CodeReferences = ({ filesReferences }: Props) => {
   const [tab, setTab] = React.useState(filesReferences[0]?.fileName);
   if (filesReferences.length === 0) return null;
   return (
-    <div className="max-w-[70vw]">
+    <div className="max-w-[88vw] md:max-w-[70vw]">
       <Tabs value={tab} onValueChange={setTab}>
-        <div className="flex gap-2 overflow-auto rounded-md bg-gray-200 p-1">
+        <div className="flex flex-wrap gap-2 overflow-hidden rounded-md bg-gray-200 px-1">
           {filesReferences.map((file) => (
             <button
               key={file.fileName}
@@ -35,9 +35,17 @@ const CodeReferences = ({ filesReferences }: Props) => {
           <TabsContent
             key={file.fileName}
             value={file.fileName}
-            className="max-h-[40vh] max-w-7xl overflow-auto rounded-md"
+            className="max-h-[40vh] w-full overflow-auto break-words rounded-md"
           >
-            <SyntaxHighlighter language="typescript" style={lucario}>
+            <SyntaxHighlighter
+              language="typescript"
+              style={lucario}
+              wrapLongLines={true}
+              customStyle={{
+                whiteSpace: "pre-wrap", // ensures text wraps
+                wordBreak: "break-word",
+              }}
+            >
               {file.sourceCode}
             </SyntaxHighlighter>
           </TabsContent>

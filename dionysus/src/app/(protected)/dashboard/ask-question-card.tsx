@@ -54,7 +54,7 @@ const AskQuestionCard = () => {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="h-full overflow-scroll sm:max-w-[80vw]">
+        <DialogContent className="h-full overflow-scroll md:max-w-[75vw]">
           <DialogHeader>
             <div className="flex items-center gap-2">
               <DialogTitle>
@@ -112,7 +112,7 @@ const AskQuestionCard = () => {
               ),
             }}
           />
-          <div className="h-1"></div>
+          {/* <div className="h-1"></div> */}
 
           <CodeReferences filesReferences={filesReferences} />
 
