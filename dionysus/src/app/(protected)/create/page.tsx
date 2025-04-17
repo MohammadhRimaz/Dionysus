@@ -52,7 +52,7 @@ const CreatePage = () => {
     : true;
 
   return (
-    <div className="flex h-full items-center justify-center gap-12">
+    <div className="flex flex-col-reverse items-center justify-center gap-8 px-4 lg:flex-row lg:gap-12 lg:px-0 lg:py-20">
       <img src="/undraw_github.svg" className="h-56 w-auto" alt="hero image" />
       <div>
         <div>

@@ -64,12 +64,12 @@ const QAPage = () => {
         })}
       </div>
       {question && (
-        <SheetContent className="sm:max-w-[80vw]">
+        <SheetContent className="w-full md:max-w-[75vw]">
           <SheetHeader>
             <SheetTitle>{question.question}</SheetTitle>
             <MDEditor.Markdown
               source={question.answer}
-              className="!h-full max-h-[40vh] max-w-[90vw] overflow-scroll rounded-md bg-white p-2 text-black"
+              className="max-h-[36vh] overflow-scroll rounded-md bg-white p-2 text-left text-black"
               style={{
                 backgroundColor: "white",
                 color: "black",
