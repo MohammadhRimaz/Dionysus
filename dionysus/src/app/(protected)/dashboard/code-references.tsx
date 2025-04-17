@@ -28,7 +28,7 @@ const CodeReferences = ({ filesReferences }: Props) => {
   if (filesReferences.length === 0) return null;
 
   return (
-    <div className="max-w-[88vw] md:max-w-[70vw]">
+    <div className="mx-auto max-w-[90vw]">
       <Tabs value={tab} onValueChange={setTab}>
         <div className="flex gap-2 overflow-x-auto rounded-md bg-gray-200 px-1">
           {filesReferences.map((file) => (
