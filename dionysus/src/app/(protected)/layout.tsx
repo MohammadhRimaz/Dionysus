@@ -14,7 +14,7 @@ const Sidebarlayout = ({ children }: Props) => {
         <AppSidebar />
         <main className="m-2 flex-1">
           <Topbar />
-          <div className="max-h-[calc(100vh-6rem)] overflow-y-auto rounded-md border border-sidebar-border bg-sidebar p-4 shadow">
+          <div className="max-h-[calc(100vh)] rounded-md border border-sidebar-border bg-sidebar p-4 shadow">
             {children}
           </div>
         </main>
