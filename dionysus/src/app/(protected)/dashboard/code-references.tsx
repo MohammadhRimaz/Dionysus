@@ -28,7 +28,7 @@ const CodeReferences = ({ filesReferences }: Props) => {
   if (filesReferences.length === 0) return null;
 
   return (
-    <div className="mx-auto max-w-[90vw]">
+    <div className="scrollbar-hide max-h-[90vh] w-full overflow-y-auto rounded-md px-4 py-6 sm:max-w-[95vw] md:max-w-[75vw]">
       <Tabs value={tab} onValueChange={setTab}>
         <div className="scrollbar-hide flex gap-2 overflow-auto rounded-md bg-gray-200 p-1">
           {filesReferences.map((file) => (
@@ -39,7 +39,7 @@ const CodeReferences = ({ filesReferences }: Props) => {
               }}
               onClick={() => handleTabClick(file.fileName)}
               className={cn(
-                "whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-gray-300 hover:text-blue-950",
+                "whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors",
                 {
                   "bg-primary text-primary-foreground": tab === file.fileName,
                 },
@@ -53,7 +53,7 @@ const CodeReferences = ({ filesReferences }: Props) => {
           <TabsContent
             key={file.fileName}
             value={file.fileName}
-            className="max-h-[40vh] w-full overflow-auto rounded-md"
+            className="scrollbar-hide max-h-[40vh] w-full overflow-auto rounded-md"
           >
             <SyntaxHighlighter
               language="typescript"
