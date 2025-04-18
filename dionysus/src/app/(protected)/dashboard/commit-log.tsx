@@ -34,7 +34,7 @@ const CommitLog = () => {
                   className="relative mt-4 size-8 flex-none rounded-full bg-gray-50"
                 />
                 {/* Commit Content */}
-                <div className="flex-auto rounded-md bg-white p-3 ring-1 ring-inset ring-gray-200">
+                <div className="flex-auto break-words rounded-md bg-white p-3 ring-1 ring-inset ring-gray-200">
                   <div className="flex flex-wrap justify-between gap-x-4">
                     <Link
                       target="_blank"
