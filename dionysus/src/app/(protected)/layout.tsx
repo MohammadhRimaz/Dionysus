@@ -10,7 +10,7 @@ type Props = {
 const Sidebarlayout = ({ children }: Props) => {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen">
+      <div className="flex">
         <AppSidebar />
         <main className="m-2 flex-1">
           <Topbar />
