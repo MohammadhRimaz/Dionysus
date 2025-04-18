@@ -14,14 +14,14 @@ import TeamMembers from "./team-members";
 const Dashboardpage = () => {
   const { project } = useProject();
   return (
-    <div>
+    <div className="w-full max-w-full overflow-x-hidden px-2 sm:px-4">
       <div className="flex flex-wrap items-center justify-between gap-y-4">
         {/* GitHub Link */}
         <div className="w-fit rounded-md bg-primary px-4 py-3">
-          <div className="flex items-center">
+          <div className="flex items-center break-words">
             <GithubIcon className="size-5 text-white" />
-            <div className="ml-2">
-              <p className="text-sm font-medium text-white">
+            <div className="ml-2 min-w-0">
+              <p className="break-words break-all text-sm font-medium text-white">
                 This project is linked to{" "}
                 <Link
                   href={project?.githubUrl ?? ""}
@@ -37,7 +37,7 @@ const Dashboardpage = () => {
 
         <div className="h-4"></div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
           <TeamMembers />
           <InviteButton />
           <ArchiveButton />
