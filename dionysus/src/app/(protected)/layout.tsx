@@ -10,11 +10,11 @@ type Props = {
 const Sidebarlayout = ({ children }: Props) => {
   return (
     <SidebarProvider>
-      <div className="flex">
+      <div className="flex min-h-screen w-full overflow-x-hidden">
         <AppSidebar />
-        <main className="m-2 flex-1">
+        <main className="flex-1 overflow-x-hidden px-2 sm:px-4">
           <Topbar />
-          <div className="max-h-[calc(100vh)] rounded-md border border-sidebar-border bg-sidebar p-4 shadow">
+          <div className="mt-2 w-full max-w-full rounded-md border border-sidebar-border bg-sidebar p-4 shadow">
             {children}
           </div>
         </main>
