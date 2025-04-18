@@ -6,6 +6,9 @@ import { Octokit } from "octokit";
 import axios from "axios";
 import "dotenv/config";
 import { aiSummariseCommit } from "./gemini";
+import pLimit from "p-limit";
+
+const limit = pLimit(10); // Limit to 2 concurrent requests
 
 export const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
@@ -52,29 +55,43 @@ export const pollCommits = async (projectId: string) => {
     projectId,
     commitHashes,
   );
-  const summaryResponses = await Promise.allSettled(
-    unprocessedCommits.map((commit) => {
-      return summariseCommit(githubUrl, commit.commitHash);
-    }),
+  // const summaryResponses = await Promise.allSettled(
+  //   unprocessedCommits.map((commit) => {
+  //     return summariseCommit(githubUrl, commit.commitHash);
+  //   }),
+  // );
+  // const summaries = summaryResponses.map((response) => {
+  //   if (response.status === "fulfilled") {
+  //     return response.value as string;
+  //   }
+  //   return "";
+  // });
+
+  const commitsWithSummaries = await Promise.all(
+    unprocessedCommits.map((commit) =>
+      limit(async () => {
+        try {
+          const summary = await summariseCommit(githubUrl, commit.commitHash);
+          return { ...commit, summary };
+        } catch (err) {
+          console.error(`❌ Failed to summarize ${commit.commitHash}`, err);
+          return { ...commit, summary: "" };
+        }
+      }),
+    ),
   );
-  const summaries = summaryResponses.map((response) => {
-    if (response.status === "fulfilled") {
-      return response.value as string;
-    }
-    return "";
-  });
 
   const commits = await db.commit.createMany({
-    data: summaries.map((summary, index) => {
-      console.log(`processing commit ${index}`);
+    data: commitsWithSummaries.map((commit, index) => {
+      console.log(`processing commit ${index + 1}: ${commit.commitHash}`);
       return {
         projectId: projectId,
-        commitHash: unprocessedCommits[index]!.commitHash,
-        commitMessage: unprocessedCommits[index]!.commitMessage,
-        commitAuthorName: unprocessedCommits[index]!.commitAuthorName,
-        commitAuthorAvatar: unprocessedCommits[index]!.commitAuthorAvatar,
-        commitDate: unprocessedCommits[index]!.commitDate,
-        summary,
+        commitHash: commit.commitHash,
+        commitMessage: commit.commitMessage,
+        commitAuthorName: commit.commitAuthorName,
+        commitAuthorAvatar: commit.commitAuthorAvatar,
+        commitDate: commit.commitDate,
+        summary: commit.summary,
       };
     }),
   });

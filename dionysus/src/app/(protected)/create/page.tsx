@@ -20,6 +20,15 @@ const CreatePage = () => {
   const checkCredits = api.project.checkCredits.useMutation();
   const refetch = useRefetch();
 
+  const [projectId, setProjectId] = React.useState<string | null>(null);
+
+  const { refetch: refetchCommits } = api.project.getCommits.useQuery(
+    { projectId: projectId ?? "" },
+    {
+      enabled: false,
+    },
+  );
+
   function onSubmit(data: FormInput) {
     if (!!checkCredits.data) {
       createProject.mutate(
@@ -29,8 +38,13 @@ const CreatePage = () => {
           githubToken: data.githubToken,
         },
         {
-          onSuccess: () => {
+          onSuccess: async (project) => {
             toast.success("Project created successfully");
+            setProjectId(project.id);
+            await new Promise((res) => setTimeout(res, 500)); // optional delay
+
+            // Fetch commits (includes summaries)
+            await refetchCommits();
             refetch();
             reset();
           },
