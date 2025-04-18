@@ -4,6 +4,7 @@
 import { db } from "@/server/db";
 import { Octokit } from "octokit";
 import axios from "axios";
+import "dotenv/config";
 import { aiSummariseCommit } from "./gemini";
 
 export const octokit = new Octokit({

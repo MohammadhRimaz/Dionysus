@@ -54,7 +54,18 @@ const CommitLog = () => {
                     {commit.commitMessage}
                   </span>
                   <pre className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-gray-500">
-                    {commit.summary}
+                    {commit.summary.split(" ").map((word, i) => (
+                      <span
+                        key={i}
+                        className={
+                          word.includes("/") || word.includes(".tsx")
+                            ? "break-all bg-gray-100 font-mono text-gray-700"
+                            : ""
+                        }
+                      >
+                        {word}{" "}
+                      </span>
+                    ))}
                   </pre>
                 </div>
               </>
