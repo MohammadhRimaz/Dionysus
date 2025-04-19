@@ -51,10 +51,9 @@ export const getCommitHashes = async (
 export const pollCommits = async (projectId: string) => {
   const { project, githubUrl } = await fetchProjectGithubUrl(projectId);
   const commitHashes = await getCommitHashes(githubUrl);
-  const unprocessedCommits = await filterUnprocessedCommits(
-    projectId,
-    commitHashes,
-  );
+  const unprocessedCommits = await (
+    await filterUnprocessedCommits(projectId, commitHashes)
+  ).slice(0, 10);
   // const summaryResponses = await Promise.allSettled(
   //   unprocessedCommits.map((commit) => {
   //     return summariseCommit(githubUrl, commit.commitHash);
